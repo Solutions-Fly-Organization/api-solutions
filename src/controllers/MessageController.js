@@ -38,17 +38,15 @@ class MessageController {
       console.info("Criando nova mensagem com body:", req.body);
 
       // Usar as funções utilitárias do axios
-      const sendSeenResponse = await apiUtils.withRetry(async () => {
-        return await apiUtils.sendSeen(
-          req.body.payload?.from,
-          req.body.payload?.id,
-          req.body.session,
-          null
-        );
-      });
+      await apiUtils.sendSeen(
+        req.body.payload?.from,
+        req.body.payload?.id,
+        req.body.session,
+        null
+      );
 
       await apiUtils.startTyping(req.body.payload?.from, req.body.session);
-      
+
       await new Promise((resolve) => setTimeout(resolve, 2000));
       await apiUtils.stopTyping(req.body.payload?.from, req.body.session);
 
